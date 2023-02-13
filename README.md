@@ -6,6 +6,8 @@ npm install
 
 npm run serve
 ```
+也可直接配置运行，[演示地址](https://jensonhui.github.io/vue-json-translation/)
+
 
 ### 注意：
   1. 暂不支持多层嵌套，如有需要可自行修改源码
@@ -18,3 +20,4 @@ npm run serve
   "other": ""
 }
 ```
+
