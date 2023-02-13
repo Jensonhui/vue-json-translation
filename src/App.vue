@@ -33,15 +33,22 @@
 			</el-col>
 		</el-row>
 
+		<el-card class="card-tips" shadow="never">
+			<div slot="header">相关工具链接：</div>
+			<a v-for="(item, index) in toolNav" :key="index" :href="item.href" target="_blank">
+				{{ item.name }}
+			</a>
+		</el-card>
+
 		<!-- 配置appid和key -->
 		<el-dialog title="API配置" :visible.sync="showVisible">
 			<el-form :model="form" :rules="rules" ref="formRef">
 				<el-form-item label="appid" label-width="80px" prop="appid">
-					<el-input v-model="form.appid" autocomplete="off"></el-input>
+					<el-input v-model="form.appid" autocomplete="off" />
 				</el-form-item>
 
 				<el-form-item label="key" label-width="80px" prop="key">
-					<el-input v-model="form.key" autocomplete="off"></el-input>
+					<el-input v-model="form.key" autocomplete="off" />
 				</el-form-item>
 			</el-form>
 
@@ -66,7 +73,9 @@
 <script>
 import qs from 'qs'
 import md5 from 'md5'
-import { getSpecifiedName, isJSON, deepClone, transformName } from './utils/common.js'
+import { getSpecifiedName, isJSON, deepClone, transformName, setItem, getItem } from './utils/common.js'
+
+const users = '__userConfig__'
 
 const navList = [
 	{
@@ -99,6 +108,21 @@ const navList = [
 	}
 ]
 
+const toolNav = [
+	{
+		name: '本机网络IP查询',
+		href: 'https://ip.cn/'
+	},
+	{
+		name: '百度翻译开放平台',
+		href: 'https://api.fanyi.baidu.com/'
+	},
+	{
+		name: '有效JSON检测工具',
+		href: 'https://www.json.cn/json/jsononline.html'
+	}
+]
+
 export default {
 	name: 'app',
 	data () {
@@ -116,6 +140,7 @@ export default {
 			rSwitch: 'key',
 			showVisible: false,
 			navList: navList,
+			toolNav: toolNav,
 			oldJson: null,
 			newJson: null,
 			oldJsonText: null,
@@ -129,6 +154,9 @@ export default {
 			"orange": "橘子",
 			"other": ""
 		}
+
+		const hasUser = getItem(users)
+		hasUser && (this.form = hasUser)
 	},
 	methods: {
 		// 检测是否合法JSON
@@ -138,7 +166,7 @@ export default {
 			}
 
 			const isJson = isJSON(this.oldJsonText) || false
-			this.oldJson = isJson ? JSON.parse(this.oldJsonText) : '输入的不是JSON数据'
+			this.oldJson = isJson ? JSON.parse(this.oldJsonText) : false
 		},
 
 		// 提交翻译
@@ -151,7 +179,7 @@ export default {
 			}
 
 			if (!oldJson || JSON.stringify(oldJson) === "{}") {
-				this.$message.error("请输入待翻译的JSON")
+				this.$message.error("JSON格式不合法, 请检查待翻译的JSON数据")
 				return false
 			}
 
@@ -189,7 +217,7 @@ export default {
 							for (const key in params) {
 								if (key === src) {
 									computedData[trnasDst] = key
-									continue
+									break
 								}
 							}
 						}
@@ -201,6 +229,7 @@ export default {
 							for (const key in params) {
 								if (params[key] === src) {
 									params[key] = transformName(dst)
+									break
 								}
 							}
 						}
@@ -217,6 +246,7 @@ export default {
 		confirmHandle () {
 			this.$refs.formRef.validate(valid => {
 				if (valid) {
+					setItem(users, this.form)
 					this.showVisible = false;
 				} else {
 					return false;

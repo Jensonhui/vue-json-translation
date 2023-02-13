@@ -65,3 +65,15 @@ export const transformName = name => {
 
 	return result.join('')
 }
+
+export const setItem = (name, value) => {
+	sessionStorage.setItem(name, JSON.stringify(value))
+}
+
+export const getItem = (name) => {
+	const value = sessionStorage.getItem(name) || null
+
+	if (!value) return false
+
+	return JSON.parse(value)
+}

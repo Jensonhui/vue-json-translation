@@ -5,12 +5,19 @@
 }
 
 body {
-	padding: 40px 20px
+	padding: 20px
 }
 
 .page-wrap {
 	margin: 0 auto;
 	max-width: 1200px
+}
+
+.page-wrap a {
+	font-size: 12px;
+	padding: 0 2px;
+	color: #409eff;
+	text-decoration: none
 }
 
 .title-line,
@@ -23,12 +30,18 @@ body {
 	justify-content: space-between
 }
 
-.top {
-	margin-top: 40px
+.top,
+.card-tips {
+	margin-top: 30px
+}
+
+.card-tips a {
+	padding: 0 10px;
+	border-right: 2px solid rgba(0, 0, 0, 0.5);
 }
 
 .info-alert {
-	margin: 4px 0 40px
+	margin: 10px 0 30px;
 }
 
 .input-textarea,
@@ -65,12 +78,6 @@ body {
 	padding: 2px 0;
 	font-size: 12px;
 	align-items: center
-}
-
-.tips p a {
-	padding: 0 2px;
-	color: #409eff;
-	text-decoration: none
 }
 
 ::-webkit-scrollbar {
