@@ -189,7 +189,7 @@ export default {
 							for (const key in params) {
 								if (key === src) {
 									computedData[trnasDst] = key
-									continue
+									break
 								}
 							}
 						}
@@ -201,6 +201,7 @@ export default {
 							for (const key in params) {
 								if (params[key] === src) {
 									params[key] = transformName(dst)
+									break
 								}
 							}
 						}
